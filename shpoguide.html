@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShopGuide | Buy Smarter</title>
+<style>
+:root{--blue:#1764e8;--navy:#10234d;--muted:#66738d;--bg:#f3f7ff;--line:#e3eaf7;--white:#fff}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--navy)}
+button,input,select{font:inherit}button{cursor:pointer;border:0;border-radius:10px;padding:10px 14px;font-weight:700}
+.app{display:grid;grid-template-columns:205px 1fr;min-height:100vh}.sidebar{background:#fff;border-right:1px solid var(--line);padding:22px 14px;display:flex;flex-direction:column;gap:8px}
+.logo{font-size:21px;font-weight:900;margin:0 8px 24px;color:#143b91}.logo span{display:block;font-size:10px;color:var(--muted);font-weight:600;letter-spacing:.5px}
+.nav{width:100%;text-align:left;background:transparent;color:#53627b;margin:2px 0}.nav.active,.nav:hover{background:#e9f0ff;color:var(--blue)}.nav.bottom{margin-top:auto}
+main{min-width:0;padding:22px 26px 35px}.topbar{display:flex;gap:14px;align-items:center;margin-bottom:22px}.search{display:flex;gap:8px;flex:1}.search input{width:100%;border:1px solid var(--line);border-radius:12px;padding:13px 16px;outline:none;background:#fff}.primary{background:var(--blue);color:white}.secondary{background:#edf3ff;color:var(--blue)}.profile{white-space:nowrap;font-size:13px;font-weight:700}
+.hero{background:linear-gradient(115deg,#fff 0%,#e7efff 100%);border:1px solid var(--line);border-radius:20px;padding:28px;margin-bottom:22px;position:relative;overflow:hidden}.hero h1{font-size:clamp(25px,3vw,38px);margin:0 0 10px;letter-spacing:-1px}.hero h1 span{color:#7a2be8}.hero p{color:var(--muted);margin:0 0 22px;max-width:700px;line-height:1.5}.features{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.feature{background:#ffffffd9;border:1px solid #e4eaf8;border-radius:13px;padding:13px;font-size:12px}.feature b{display:block;font-size:13px;margin:5px 0}.feature .emoji{font-size:19px}
+.content{display:grid;grid-template-columns:minmax(0,1fr) 235px;gap:20px}.section-title{display:flex;align-items:end;justify-content:space-between;margin:6px 0 13px}.section-title h2{font-size:21px;margin:0 0 4px}.section-title p{color:var(--muted);font-size:13px;margin:0}.products{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.product{background:#fff;border:1px solid var(--line);border-radius:16px;padding:15px;min-width:0;box-shadow:0 4px 16px #24406b08}.tag{font-size:10px;font-weight:800;color:#fff;border-radius:20px;padding:5px 8px;display:inline-block;background:#f59e0b}.product-art{height:115px;display:grid;place-items:center;margin:9px 0;background:linear-gradient(140deg,#eef5ff,#f8fbff);border-radius:12px;font-size:62px}.product h3{font-size:15px;margin:8px 0 5px}.spec{font-size:12px;color:var(--muted);line-height:1.5;min-height:36px}.rating{font-size:12px;color:#d89000;margin:8px 0}.price{font-size:19px;font-weight:900;margin:7px 0 12px}.actions{display:flex;gap:7px}.actions button{flex:1;font-size:12px;padding:10px 7px}.filters{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;height:max-content}.filters h3{margin:0 0 15px}.filters label{display:block;font-size:13px;margin:10px 0;color:#455574}.filters input[type=checkbox]{margin-right:7px;accent-color:var(--blue)}.filters select{width:100%;padding:10px;border:1px solid var(--line);border-radius:9px;background:#fff}.filter-group{padding-bottom:13px;border-bottom:1px solid var(--line);margin-bottom:13px}.filter-group:last-child{border:0}.filter-group h4{font-size:12px;margin:0 0 9px;color:#56647d}
+.panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;margin-top:20px}.panel h2{font-size:20px;margin:0 0 12px}.compare-empty{color:var(--muted);font-size:14px}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:12px;text-align:left;border-bottom:1px solid var(--line)}th{background:#f4f7ff}td:first-child{font-weight:800}.explanation{background:#f2fbf7;border:1px solid #cfeee0;border-radius:12px;padding:14px;margin-top:14px;line-height:1.6;font-size:14px}.hidden{display:none!important}.modal-backdrop{position:fixed;inset:0;background:#0d1b35a8;display:grid;place-items:center;padding:18px;z-index:10}.modal{background:#fff;max-width:560px;width:100%;padding:24px;border-radius:18px;max-height:90vh;overflow:auto}.modal h2{margin-top:0}.modal .close{float:right;background:#edf2fa}.small-muted{font-size:12px;color:var(--muted)}
+footer{text-align:center;color:var(--muted);font-size:12px;margin-top:25px}
+@media(max-width:1050px){.content{grid-template-columns:1fr}.filters{order:-1}.filter-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.products{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:700px){.app{grid-template-columns:1fr}.sidebar{display:none}main{padding:14px}.topbar{flex-wrap:wrap}.profile{display:none}.hero{padding:20px}.features{grid-template-columns:1fr}.products{grid-template-columns:repeat(2,minmax(0,1fr))}.product-art{height:90px;font-size:48px}.filter-row{grid-template-columns:1fr 1fr}}
+@media(max-width:430px){.products{grid-template-columns:1fr}.hero h1{font-size:26px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="logo">🛒 ShopGuide <span>BUY SMARTER</span></div>
+    <button class="nav active" data-view="home">⌂ &nbsp; Home</button>
+    <button class="nav" data-category="Laptop">▣ &nbsp; Laptops</button>
+    <button class="nav" data-category="Smartphone">▣ &nbsp; Smartphones</button>
+    <button class="nav" data-category="Tablet">▣ &nbsp; Tablets</button>
+    <button class="nav" data-category="Accessories">◉ &nbsp; Accessories</button>
+    <button class="nav" data-view="compare">▤ &nbsp; Compare</button>
+    <button class="nav" data-view="saved">♡ &nbsp; Saved</button>
+    <button class="nav" data-view="assistant">✦ &nbsp; AI Assistant</button>
+    <button class="nav bottom" data-view="profile">☻ &nbsp; My Profile</button>
+  </aside>
+  <main>
+    <div class="topbar">
+      <div class="search"><input id="searchInput" placeholder="⌕  Search products (e.g. laptop under ₹60000)"><button class="primary" id="searchBtn">Search</button></div>
+      <div class="profile">🔔 &nbsp; Hi, Customer ▾</div>
+    </div>
+    <section class="hero">
+      <h1>Understand. Compare. <span>Buy Smarter.</span></h1>
+      <p>We simplify product information and help you find the best product for your needs and budget.</p>
+      <div class="features">
+        <div class="feature"><span class="emoji">💡</span><b>Easy Explanations</b>Understand technical terms in simple language.</div>
+        <div class="feature"><span class="emoji">⚖️</span><b>Compare Products</b>Compare features and prices side by side.</div>
+        <div class="feature"><span class="emoji">🎯</span><b>Smart Suggestions</b>Find products based on your budget and needs.</div>
+      </div>
+    </section>
+    <div class="content">
+      <section>
+        <div class="section-title"><div><h2 id="listTitle">Popular Products</h2><p id="listSubtitle">Explore products with simplified information</p></div><button class="secondary" id="clearFilters">Clear filters</button></div>
+        <div class="products" id="products"></div>
+        <section class="panel" id="comparePanel">
+          <h2>Compare Products <span class="small-muted">(select up to 3)</span></h2>
+          <div id="comparison" class="compare-empty">Click “Compare” on any product card to add it here.</div>
+        </section>
+      </section>
+      <aside class="filters">
+        <h3>Filters <button id="clearFilters2" style="float:right;background:none;color:var(--blue);padding:0;font-size:11px">Clear all</button></h3>
+        <div class="filter-group"><h4>Category</h4><select id="categoryFilter"><option value="All">All categories</option><option>Laptop</option><option>Smartphone</option><option>Tablet</option><option>Accessories</option></select></div>
+        <div class="filter-group"><h4>Maximum Price</h4><select id="priceFilter"><option value="100000">Any price</option><option value="15000">Under ₹15,000</option><option value="30000">Under ₹30,000</option><option value="60000">Under ₹60,000</option><option value="80000">Under ₹80,000</option></select></div>
+        <div class="filter-group"><h4>Brand</h4><div id="brandFilters"></div></div>
+        <div class="small-muted">Tip: combine search and filters to find a suitable product.</div>
+      </aside>
+    </div>
+    <footer>ShopGuide · Demo product data for college project · Prices/specifications are illustrative</footer>
+  </main>
+</div>
+<div id="modalRoot"></div>
+<script>
+const productsData = [
+ {id:1,name:"Lenovo IdeaPad Slim 3",brand:"Lenovo",category:"Laptop",price:54990,rating:4.3,icon:"💻",tag:"Best for Students",processor:"Intel Core i5-1335U",ram:"16 GB",storage:"512 GB SSD",display:'15.6" FHD',battery:"47 Wh",description:"A balanced laptop for classes, coding, office work and everyday browsing.",pros:["Good for study and programming","Fast SSD storage","Full HD display"],cons:["Not designed for high-end gaming","Average battery capacity"],best:"Students and everyday productivity"},
+ {id:2,name:"ASUS Vivobook 15",brand:"ASUS",category:"Laptop",price:56990,rating:4.4,icon:"💻",tag:"Best Value",processor:"AMD Ryzen 5 7530U",ram:"16 GB",storage:"512 GB SSD",display:'15.6" FHD',battery:"42 Wh",description:"A value-focused laptop for multitasking, study and general productivity.",pros:["Good multitasking","Large screen","Useful for college work"],cons:["Not ideal for demanding 3D work","Battery life depends on usage"],best:"Students and office work"},
+ {id:3,name:"HP Pavilion 14",brand:"HP",category:"Laptop",price:62990,rating:4.5,icon:"💻",tag:"Best Performance",processor:"Intel Core i5-1340P",ram:"16 GB",storage:"1 TB SSD",display:'14" FHD',battery:"68 Wh",description:"A compact laptop with extra storage for study, work and everyday creative tasks.",pros:["Large 1 TB storage","Portable 14-inch size","Good for multitasking"],cons:["Costs more than basic models","Not a dedicated gaming laptop"],best:"Students and professionals"},
+ {id:4,name:"Acer Aspire 5",brand:"Acer",category:"Laptop",price:58990,rating:4.2,icon:"💻",tag:"For Creators",processor:"AMD Ryzen 7 5700U",ram:"16 GB",storage:"512 GB SSD",display:'15.6" FHD',battery:"50 Wh",description:"A laptop suited to multitasking and light creative work.",pros:["Strong multitasking potential","Full HD screen","Good everyday performance"],cons:["Check exact model specifications","Not for very demanding graphics work"],best:"Multitasking and light editing"},
+ {id:5,name:"Dell Inspiron 14",brand:"Dell",category:"Laptop",price:72990,rating:4.5,icon:"💻",tag:"Premium",processor:"Intel Core i7",ram:"16 GB",storage:"1 TB SSD",display:'14" FHD',battery:"54 Wh",description:"A premium everyday laptop for users who want a portable work device.",pros:["Portable design","Ample storage","Suitable for productivity"],cons:["Higher price","Exact features vary by model"],best:"Professional productivity"},
+ {id:6,name:"Samsung Galaxy A55",brand:"Samsung",category:"Smartphone",price:27999,rating:4.4,icon:"📱",tag:"All-rounder",processor:"Exynos 1480",ram:"8 GB",storage:"128 GB",display:'6.6" AMOLED',battery:"5000 mAh",description:"A general-purpose smartphone for photos, video, communication and apps.",pros:["Bright AMOLED display","Good everyday use","Large battery"],cons:["Storage may be limited for some users","Charging speed varies"],best:"Everyday use and photography"},
+ {id:7,name:"Redmi Note Series",brand:"Redmi",category:"Smartphone",price:16999,rating:4.2,icon:"📱",tag:"Budget Pick",processor:"Octa-core",ram:"8 GB",storage:"128 GB",display:'6.6" display',battery:"5000 mAh",description:"A budget-oriented phone for common apps, video and daily tasks.",pros:["Budget-friendly","Large battery","Good for daily tasks"],cons:["Specifications vary by model","Camera results depend on lighting"],best:"Budget-conscious users"},
+ {id:8,name:"Samsung Galaxy Tab",brand:"Samsung",category:"Tablet",price:21999,rating:4.3,icon:"📲",tag:"For Learning",processor:"Octa-core",ram:"6 GB",storage:"128 GB",display:'11" display',battery:"Large capacity",description:"A tablet for reading, online classes, videos and note-taking.",pros:["Large screen","Convenient for reading","Portable"],cons:["Laptop software may not be available","Accessories may cost extra"],best:"Learning and media"},
+ {id:9,name:"Wireless Headphones",brand:"Sony",category:"Accessories",price:4999,rating:4.1,icon:"🎧",tag:"Everyday Audio",processor:"Bluetooth",ram:"—",storage:"—",display:"Over-ear",battery:"Long battery life",description:"Wireless headphones for music, video calls and everyday listening.",pros:["No audio cable needed","Useful for calls and music","Easy to carry"],cons:["Needs charging","Fit and sound preference differ"],best:"Music and online classes"}
+];
+let selectedCompare=[], savedIds=new Set(), activeView="home";
+const $=id=>document.getElementById(id);
+function rupees(n){return "₹"+n.toLocaleString("en-IN")}
+function currentBrands(){return [...new Set(productsData.map(p=>p.brand))]}
+function renderBrandFilters(){
+ $("brandFilters").innerHTML=currentBrands().map(b=>`<label><input type="checkbox" class="brandCheck" value="${b}"> ${b}</label>`).join("");
+ document.querySelectorAll(".brandCheck").forEach(c=>c.addEventListener("change",renderProducts));
+}
+function getFiltered(){
+ const q=$("searchInput").value.trim().toLowerCase();
+ const cat=$("categoryFilter").value, max=Number($("priceFilter").value);
+ const brands=[...document.querySelectorAll(".brandCheck:checked")].map(c=>c.value);
+ return productsData.filter(p=>{
+  const matchesQuery=!q || `${p.name} ${p.brand} ${p.category} ${p.processor} ${p.ram} ${p.storage} ${p.description}`.toLowerCase().includes(q);
+  const matchesCat=cat==="All"||p.category===cat;
+  const matchesPrice=p.price<=max;
+  const matchesBrand=!brands.length||brands.includes(p.brand);
+  const matchesView=activeView==="saved"?savedIds.has(p.id):true;
+  return matchesQuery&&matchesCat&&matchesPrice&&matchesBrand&&matchesView;
+ });
+}
+function renderProducts(){
+ const list=getFiltered();
+ $("listTitle").textContent=activeView==="saved"?"Saved Products":activeView==="assistant"?"Product Help Assistant":activeView==="profile"?"My Profile":activeView==="compare"?"Products to Compare":$("categoryFilter").value==="All"?"Popular Products":$("categoryFilter").value+"s";
+ $("listSubtitle").textContent=list.length?`${list.length} product${list.length===1?"":"s"} found · product information in simple language`:"Try changing your search or filters.";
+ $("products").innerHTML=list.map(p=>`<article class="product">
+ <span class="tag">${p.tag}</span><div class="product-art" aria-label="${p.category} illustration">${p.icon}</div>
+ <h3>${p.name}</h3><div class="spec">${p.processor} · ${p.ram} RAM · ${p.storage}</div>
+ <div class="rating">★ ${p.rating} <span style="color:#8290a6">customer rating</span></div><div class="price">${rupees(p.price)}</div>
+ <div class="actions"><button class="primary" onclick="showDetails(${p.id})">Details</button><button class="secondary" onclick="toggleCompare(${p.id})">${selectedCompare.includes(p.id)?"Added ✓":"Compare"}</button><button class="secondary" title="Save product" onclick="toggleSave(${p.id})">${savedIds.has(p.id)?"♥":"♡"}</button></div>
+ </article>`).join("");
+ if(!list.length)$("products").innerHTML='<div class="panel">No products found. Try another search or clear the filters.</div>';
+}
+function toggleCompare(id){
+ if(selectedCompare.includes(id))selectedCompare=selectedCompare.filter(x=>x!==id);
+ else if(selectedCompare.length>=3){alert("You can compare up to 3 products.");return}
+ else selectedCompare.push(id);
+ renderProducts();renderComparison();
+}
+function renderComparison(){
+ const list=selectedCompare.map(id=>productsData.find(p=>p.id===id)).filter(Boolean);
+ if(!list.length){$("comparison").className="compare-empty";$("comparison").textContent="Click “Compare” on any product card to add it here.";return}
+ $("comparison").className="table-wrap";
+ const rows=[["Product",p=>p.name],["Price",p=>rupees(p.price)],["Processor",p=>p.processor],["RAM",p=>p.ram],["Storage",p=>p.storage],["Display",p=>p.display],["Battery",p=>p.battery],["Rating",p=>"★ "+p.rating],["Suitable for",p=>p.best]];
+ $("comparison").innerHTML=`<table><thead><tr><th>Feature</th>${list.map(p=>`<th>${p.name}<br><button class="secondary" style="margin-top:6px;padding:5px 8px" onclick="toggleCompare(${p.id})">Remove</button></th>`).join("")}</tr></thead><tbody>${rows.map(([label,fn])=>`<tr><td>${label}</td>${list.map(p=>`<td>${fn(p)}</td>`).join("")}</tr>`).join("")}</tbody></table><div class="explanation"><b>Quick guidance:</b> Choose based on your budget and main use. More RAM helps with multitasking; an SSD helps apps and files load quickly. Compare the exact model specifications before buying.</div>`;
+}
+function toggleSave(id){savedIds.has(id)?savedIds.delete(id):savedIds.add(id);renderProducts()}
+function showDetails(id){
+ const p=productsData.find(x=>x.id===id);
+ $("modalRoot").innerHTML=`<div class="modal-backdrop" onclick="if(event.target===this)closeModal()"><div class="modal"><button class="close" onclick="closeModal()">✕ Close</button><div style="font-size:48px">${p.icon}</div><h2>${p.name}</h2><div class="rating">★ ${p.rating}</div><div class="price">${rupees(p.price)}</div><p>${p.description}</p><h3>Specifications</h3><div class="table-wrap"><table><tbody><tr><td>Processor</td><td>${p.processor}</td></tr><tr><td>RAM</td><td>${p.ram}</td></tr><tr><td>Storage</td><td>${p.storage}</td></tr><tr><td>Display</td><td>${p.display}</td></tr><tr><td>Battery</td><td>${p.battery}</td></tr></tbody></table></div><div class="explanation"><b>In simple language</b><br>${p.ram==="—"?"This item does not use computer RAM or storage in the usual way.":p.ram+" RAM helps keep multiple apps open. "+p.storage+" describes space for files and apps."} ${p.storage.includes("SSD")?"An SSD is fast storage that helps the computer start and open apps quickly.":""}<br><br><b>Good points</b><ul>${p.pros.map(x=>`<li>${x}</li>`).join("")}</ul><b>Things to consider</b><ul>${p.cons.map(x=>`<li>${x}</li>`).join("")}</ul><b>Suitable for:</b> ${p.best}</div><p class="small-muted">Demo information only. Verify the exact model and current price before purchasing.</p><button class="primary" onclick="toggleCompare(${p.id});closeModal()">Add to comparison</button></div></div>`;
+}
+function closeModal(){$("modalRoot").innerHTML=""}
+function clearFilters(){
+ $("searchInput").value="";$("categoryFilter").value="All";$("priceFilter").value="100000";
+ document.querySelectorAll(".brandCheck").forEach(c=>c.checked=false);activeView="home";
+ document.querySelectorAll(".nav").forEach(n=>n.classList.remove("active"));
+ document.querySelector('[data-view="home"]').classList.add("active");renderProducts();
+}
+$("searchBtn").addEventListener("click",renderProducts);
+$("searchInput").addEventListener("keydown",e=>{if(e.key==="Enter")renderProducts()});
+$("categoryFilter").addEventListener("change",renderProducts);
+$("priceFilter").addEventListener("change",renderProducts);
+$("clearFilters").addEventListener("click",clearFilters);
+$("clearFilters2").addEventListener("click",clearFilters);
+document.querySelectorAll(".nav").forEach(btn=>btn.addEventListener("click",()=>{
+ document.querySelectorAll(".nav").forEach(n=>n.classList.remove("active"));btn.classList.add("active");
+ if(btn.dataset.category){activeView="home";$("categoryFilter").value=btn.dataset.category}
+ else if(btn.dataset.view){activeView=btn.dataset.view;if(activeView==="compare")$("comparePanel").scrollIntoView({behavior:"smooth"});if(activeView==="assistant"){alert("Product Help: Search for a product and open Details to read its specifications in simple language.");activeView="home"}if(activeView==="profile"){alert("Demo profile: Customer preferences can be added in a future version.");activeView="home"}}
+ renderProducts();
+}));
+renderBrandFilters();renderProducts();renderComparison();
+</script>
+</body>
+</html>
